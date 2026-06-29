@@ -1,0 +1,17 @@
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: examgpt_db
+    environment:
+      POSTGRES_USER: examgpt_user
+      POSTGRES_PASSWORD: examgpt_password
+      POSTGRES_DB: examgpt
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

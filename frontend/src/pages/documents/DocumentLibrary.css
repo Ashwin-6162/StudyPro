@@ -1,0 +1,217 @@
+.document-library-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-32);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.library-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--spacing-16);
+}
+
+.library-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing-16);
+  padding: var(--spacing-16);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-12);
+}
+
+.library-controls-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+  flex: 1;
+  min-width: 250px;
+}
+
+.library-controls-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+/* Grid Layout */
+.documents-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-24);
+}
+
+/* List Layout */
+.documents-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+}
+
+/* Document Card (Grid) */
+.doc-card-grid {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-12);
+  overflow: hidden;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.doc-card-grid:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.doc-card-thumbnail {
+  height: 140px;
+  background-color: var(--color-surface-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid var(--color-border);
+  position: relative;
+}
+
+.doc-card-status {
+  position: absolute;
+  top: var(--spacing-8);
+  right: var(--spacing-8);
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 10px;
+  font-weight: bold;
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+}
+
+.doc-card-status.indexed {
+  color: var(--color-success);
+  border: 1px solid var(--color-success);
+}
+.doc-card-status.processing {
+  color: var(--color-warning);
+  border: 1px solid var(--color-warning);
+}
+
+.doc-card-content {
+  padding: var(--spacing-16);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.doc-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-8) var(--spacing-12);
+  color: var(--color-text-muted);
+  font-size: var(--text-caption-size);
+}
+
+.doc-card-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.doc-card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--spacing-8);
+  padding-top: var(--spacing-16);
+  border-top: 1px solid var(--color-border);
+}
+
+/* Document Card (List) */
+.doc-card-list {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-24);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-12);
+  padding: var(--spacing-16);
+  transition: all var(--transition-fast);
+}
+
+.doc-card-list:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-surface-hover);
+}
+
+.doc-card-list .doc-card-thumbnail {
+  width: 60px;
+  height: 80px;
+  border-bottom: none;
+  border-radius: 4px;
+}
+
+.doc-card-list .doc-card-content {
+  flex: 1;
+  padding: 0;
+  border: none;
+}
+
+.doc-card-list .doc-card-actions {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+/* Upload Modal/Overlay */
+.upload-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-24);
+}
+
+.upload-modal {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-16);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 600px;
+  padding: var(--spacing-32);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+}
+
+.upload-stepper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+}
+
+.upload-step {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-12);
+  color: var(--color-text-muted);
+}
+
+.upload-step.active {
+  color: var(--color-primary);
+}
+
+.upload-step.completed {
+  color: var(--color-success);
+}

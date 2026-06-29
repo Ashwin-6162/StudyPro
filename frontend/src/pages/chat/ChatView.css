@@ -1,0 +1,137 @@
+.chat-page-container {
+  display: flex;
+  height: calc(100vh - 72px); /* Assuming top nav is 72px */
+  overflow: hidden;
+  margin: calc(var(--spacing-32) * -1); /* Counteract main padding */
+}
+
+/* Desktop & Tablet Split View */
+@media (min-width: 768px) {
+  .chat-page-container {
+    flex-direction: row;
+  }
+  
+  .pdf-panel {
+    flex: 1;
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-surface);
+  }
+  
+  .chat-panel {
+    flex: 1;
+    max-width: 600px; /* Or 50% depending on preference */
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-bg);
+  }
+  
+  .mobile-tabs {
+    display: none;
+  }
+}
+
+/* Mobile Tabbed View */
+@media (max-width: 767px) {
+  .chat-page-container {
+    flex-direction: column;
+  }
+  
+  .mobile-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+  }
+  
+  .mobile-tab {
+    flex: 1;
+    padding: var(--spacing-16);
+    text-align: center;
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+  }
+  
+  .mobile-tab.active {
+    color: var(--color-primary);
+    border-bottom: 2px solid var(--color-primary);
+  }
+  
+  .pdf-panel, .chat-panel {
+    flex: 1;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  
+  .pdf-panel.active, .chat-panel.active {
+    display: flex;
+  }
+}
+
+/* PDF Toolbar */
+.pdf-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-12) var(--spacing-16);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface-elevated);
+}
+
+.pdf-toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-8);
+}
+
+.pdf-viewer-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #2a2a2a; /* Dark gray for PDF background */
+  overflow: auto;
+  position: relative;
+  padding: var(--spacing-24);
+}
+
+/* Mock PDF Page */
+.mock-pdf-page {
+  background-color: white;
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 1 / 1.414; /* A4 ratio */
+  box-shadow: var(--shadow-xl);
+  color: black;
+  padding: 40px;
+  position: relative;
+}
+
+.pdf-highlight {
+  background-color: rgba(255, 235, 59, 0.4);
+  border: 1px solid rgba(255, 235, 59, 0.8);
+  border-radius: 4px;
+}
+
+/* Chat Messages Area */
+.chat-messages-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-24);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-16);
+}
+
+/* Chat Input Area */
+.chat-input-area {
+  padding: var(--spacing-16);
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-12);
+}

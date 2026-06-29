@@ -1,0 +1,169 @@
+.qp-page-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 72px);
+  margin: calc(var(--spacing-32) * -1);
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .qp-page-container {
+    flex-direction: row;
+  }
+}
+
+.qp-config-panel {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-32);
+  background-color: var(--color-bg);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-32);
+}
+
+@media (min-width: 1024px) {
+  .qp-config-panel {
+    flex: 0 0 450px;
+    max-width: 450px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .qp-config-panel {
+    flex: 0 0 500px;
+    max-width: 500px;
+  }
+}
+
+.qp-preview-panel {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--color-surface);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.qp-preview-content {
+  padding: var(--spacing-48) var(--spacing-32);
+  max-width: 850px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-24);
+}
+
+/* Distribution Grid */
+.dist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-8);
+}
+
+.dist-card {
+  padding: var(--spacing-16);
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.dist-card:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-surface-hover);
+}
+
+.dist-card.active {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-transparent);
+  color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary);
+}
+
+/* Mock Question Paper A4 Style */
+.mock-question-paper {
+  background-color: white;
+  color: black;
+  width: 100%;
+  min-height: 1000px;
+  padding: 60px 50px;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-family: 'Times New Roman', Times, serif; /* University standard */
+}
+
+/* Dark mode fallback for paper */
+@media (prefers-color-scheme: dark) {
+  .mock-question-paper {
+    background-color: #f8fafc;
+    color: #0f172a;
+  }
+}
+
+.qp-header-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--spacing-32);
+  text-align: center;
+}
+
+.qp-header-title {
+  font-size: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.qp-header-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+  font-weight: bold;
+}
+
+.qp-part-title {
+  text-align: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin: 30px 0 20px;
+  text-transform: uppercase;
+}
+
+.qp-question-row {
+  display: flex;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.qp-question-num {
+  width: 30px;
+  flex-shrink: 0;
+}
+
+.qp-question-text {
+  flex: 1;
+}
+
+.qp-question-marks {
+  width: 40px;
+  flex-shrink: 0;
+  text-align: right;
+  font-weight: bold;
+}
+
+/* Toolbar */
+.qp-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-8);
+  padding: var(--spacing-16) 0;
+  background: linear-gradient(to bottom, var(--color-surface) 80%, transparent);
+}

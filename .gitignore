@@ -1,0 +1,54 @@
+# ── Python / Backend ──────────────────────────────────────
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.log
+logs/
+
+# Environment variables — NEVER commit these
+.env
+.env.local
+.env.*.local
+backend/.env
+
+# Storage & uploads (user data, not source)
+backend/uploads/
+backend/storage/
+
+# ── Node / Frontend ───────────────────────────────────────
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.*.local
+
+# ── Design preview (standalone HTML, optional to push) ────
+# Comment out the next line if you want it in the repo
+design-preview/
+
+# ── Docker ────────────────────────────────────────────────
+# docker-compose.yml is fine to commit (no secrets)
+
+# ── OS & Editor ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Misc ──────────────────────────────────────────────────
+*.sqlite3
+*.db
