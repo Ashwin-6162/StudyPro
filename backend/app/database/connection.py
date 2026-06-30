@@ -12,7 +12,11 @@ if not DATABASE_URL:
         "Copy .env.example to .env and fill in your database credentials."
     )
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    connect_args={"connect_timeout": 10},  # fail fast instead of hanging indefinitely
+    pool_pre_ping=True,  # detect stale connections (useful on free-tier hosts that idle/sleep)
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
