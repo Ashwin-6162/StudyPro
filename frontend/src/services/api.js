@@ -4,6 +4,11 @@ import useStore from '../store/useStore';
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
   headers: { 'Content-Type': 'application/json' },
+  // Render's free tier spins the backend down after ~15min idle; the first
+  // request after that can take 30-60s to wake it back up. Give generous
+  // headroom so a genuine cold start doesn't get mistaken for a hang, but
+  // still fail eventually instead of spinning forever on a truly dead backend.
+  timeout: 75000,
 });
 
 // Read live user preferences from the store (outside React).

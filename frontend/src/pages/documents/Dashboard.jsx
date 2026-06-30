@@ -30,12 +30,24 @@ export default function Dashboard() {
   const firstName = user?.name?.split(' ')[0] || 'there';
   const [docs, setDocs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+  const [slowLoad, setSlowLoad] = useState(false);
 
   useEffect(() => {
+    // If the backend is asleep (Render free-tier cold start), the first
+    // request can take 30-60s. Show a friendlier message after a few
+    // seconds instead of leaving a bare spinner with no explanation.
+    const slowTimer = setTimeout(() => setSlowLoad(true), 5000);
+
     getFiles()
       .then(res => setDocs(res.data || []))
-      .catch(() => setDocs([]))
-      .finally(() => setLoading(false));
+      .catch(() => setLoadError(true))
+      .finally(() => {
+        clearTimeout(slowTimer);
+        setLoading(false);
+      });
+
+    return () => clearTimeout(slowTimer);
   }, []);
 
   const readyDocs   = docs.filter(d => d.processing_status === 'READY_FOR_RETRIEVAL');
@@ -56,9 +68,32 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', gap: 'var(--spacing-16)' }}>
         <Loader2 size={32} style={{ color: 'var(--color-primary)', animation: 'spin 1s linear infinite' }} />
+        {slowLoad && (
+          <p className="text-small text-muted" style={{ textAlign: 'center', maxWidth: '320px' }}>
+            Waking up the server… free hosting takes a little longer to start after being idle. This can take up to a minute.
+          </p>
+        )}
         <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
+      </div>
+    );
+  }
+
+  if (loadError) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
+        <EmptyState
+          title="Couldn't reach the server."
+          description="The backend may be waking up or temporarily unavailable. Try refreshing in a moment."
+          icon={FileText}
+          action={
+            <Button variant="primary" style={{ marginTop: 'var(--spacing-16)' }}
+              onClick={() => window.location.reload()}>
+              Retry
+            </Button>
+          }
+        />
       </div>
     );
   }
