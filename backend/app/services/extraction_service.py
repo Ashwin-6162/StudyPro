@@ -18,9 +18,19 @@ from app.services.extractors.txt import extract_txt
 from app.services.extractors.diagram import classify_diagram
 from app.services.extractors.ocr import perform_ocr_on_image
 
-# Configure logging
-logging.basicConfig(filename="logs/extraction.log", level=logging.INFO, 
-                    format="%(asctime)s - %(levelname)s - %(message)s")
+# Configure logging — log to BOTH a file and stdout so errors are visible
+# in Render's (or any host's) log viewer, not just buried in a local file
+# that the deployed container may not even persist.
+os.makedirs("logs", exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("logs/extraction.log"),
+        logging.StreamHandler(),  # <-- this is what makes it show up in Render logs
+    ],
+)
+logger = logging.getLogger(__name__)
 
 DIAGRAMS_DIR = os.path.join("uploads", "diagrams")
 IMAGES_DIR = os.path.join("uploads", "images")

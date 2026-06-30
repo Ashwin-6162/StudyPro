@@ -9,8 +9,14 @@ from app.models.embedding import DocumentEmbedding, DiagramEmbedding
 from app.services.embedding_engine.generator import generate_embeddings_batch, DIMENSION, MODEL_NAME
 from app.services.embedding_engine.validator import validate_embedding
 
-logging.basicConfig(filename="logs/embedding_engine.log", level=logging.INFO, 
-                    format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("logs/embedding_engine.log"),
+        logging.StreamHandler(),
+    ],
+)
 
 BATCH_SIZE = 32
 

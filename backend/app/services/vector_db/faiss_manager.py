@@ -2,6 +2,8 @@ import os
 import faiss
 import logging
 
+logger = logging.getLogger(__name__)
+
 VECTOR_DB_DIR = "storage/vector_db"
 CHUNK_INDEX_PATH = os.path.join(VECTOR_DB_DIR, "chunk_index.faiss")
 DIAGRAM_INDEX_PATH = os.path.join(VECTOR_DB_DIR, "diagram_index.faiss")

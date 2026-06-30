@@ -12,9 +12,16 @@ import numpy as np
 os.makedirs("logs", exist_ok=True)
 os.makedirs("uploads", exist_ok=True)
 
-# Configure logging
-logging.basicConfig(filename="logs/upload.log", level=logging.INFO, 
-                    format="%(asctime)s - %(levelname)s - %(message)s")
+# Configure logging — log to BOTH a file and stdout so errors are visible
+# in Render's (or any host's) log viewer.
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("logs/upload.log"),
+        logging.StreamHandler(),
+    ],
+)
 
 UPLOAD_DIR = "uploads"
 ALLOWED_EXTENSIONS = {"pdf", "pptx", "docx", "txt"}

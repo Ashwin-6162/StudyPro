@@ -11,8 +11,14 @@ from app.services.chunking_engine.classifier import classify_chunk
 from app.services.chunking_engine.segmenter import segment_text
 from app.services.chunking_engine.linker import link_diagrams_to_chunk
 
-logging.basicConfig(filename="logs/chunking.log", level=logging.INFO, 
-                    format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    handlers=[
+        logging.FileHandler("logs/chunking.log"),
+        logging.StreamHandler(),
+    ],
+)
 
 def process_document_chunks_task(document_id: uuid.UUID):
     logging.info(f"Chunking Start: {document_id}")
