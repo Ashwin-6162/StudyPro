@@ -15,16 +15,6 @@ tabula-py==2.9.0
 Pillow==10.3.0
 opencv-python-headless==4.9.0.80
 
-# --- CPU-only PyTorch ---
-# Installed explicitly BEFORE sentence-transformers/easyocr so pip satisfies
-# their torch dependency from the CPU wheel index instead of pulling the
-# default GPU build (which drags in ~1.5GB+ of nvidia-cuda-* packages and
-# causes OOM kills on memory-constrained hosts like Render's free tier).
---extra-index-url https://download.pytorch.org/whl/cpu
-torch==2.3.0+cpu
-torchvision==0.18.0+cpu
-
-sentence-transformers==2.7.0
 faiss-cpu==1.8.0.post1
 scikit-learn==1.4.2
 tiktoken==0.6.0

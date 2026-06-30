@@ -13,8 +13,9 @@ def hybrid_search(query: str, top_k: int, index_name: str, db: Session) -> List[
     Embeds the query and searches the specified FAISS index.
     Maps the returned integer IDs back to full Postgres metadata.
     """
-    # 1. Embed query
-    query_vector = generate_embeddings_batch([query])[0]
+    # 1. Embed query (RETRIEVAL_QUERY task type, optimized differently than
+    # the RETRIEVAL_DOCUMENT embeddings used for stored chunks)
+    query_vector = generate_embeddings_batch([query], task_type="RETRIEVAL_QUERY")[0]
     query_np = np.array([query_vector], dtype=np.float32)
     
     # 2. Search FAISS
