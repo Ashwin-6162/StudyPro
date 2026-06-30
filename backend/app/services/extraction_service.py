@@ -37,6 +37,25 @@ IMAGES_DIR = os.path.join("uploads", "images")
 os.makedirs(DIAGRAMS_DIR, exist_ok=True)
 os.makedirs(IMAGES_DIR, exist_ok=True)
 
+
+def _sanitize_text(value):
+    """
+    Postgres TEXT/VARCHAR columns cannot store NUL (0x00) bytes — psycopg2
+    raises 'A string literal cannot contain NUL (0x00) characters.' if any
+    slip through. Some PDFs (corrupted fonts, certain OCR engines, embedded
+    binary artifacts) produce text containing stray NUL bytes, so every
+    piece of extracted text must be scrubbed before it reaches the DB.
+    """
+    if value is None:
+        return value
+    if isinstance(value, str):
+        return value.replace("\x00", "")
+    if isinstance(value, list):
+        return [_sanitize_text(v) for v in value]
+    if isinstance(value, dict):
+        return {k: _sanitize_text(v) for k, v in value.items()}
+    return value
+
 def process_document_task(document_id: uuid.UUID):
     """
     Background task to orchestrate extraction.
@@ -72,11 +91,12 @@ def process_document_task(document_id: uuid.UUID):
         # Store Extracted Pages
         page_lengths = {}
         for page in extracted_data.get("pages", []):
-            page_lengths[page["page_number"]] = len(page["text_content"].strip())
+            clean_text = _sanitize_text(page["text_content"])
+            page_lengths[page["page_number"]] = len(clean_text.strip())
             db.add(DocumentPage(
                 document_id=document.id,
                 page_number=page["page_number"],
-                text_content=page["text_content"]
+                text_content=clean_text
             ))
 
         # Store Headings
@@ -85,7 +105,7 @@ def process_document_task(document_id: uuid.UUID):
                 document_id=document.id,
                 page_number=heading["page_number"],
                 level=heading["level"],
-                text=heading["text"]
+                text=_sanitize_text(heading["text"])
             ))
 
         # Store Tables
@@ -93,8 +113,8 @@ def process_document_task(document_id: uuid.UUID):
             db.add(DocumentTable(
                 document_id=document.id,
                 page_number=table["page_number"],
-                headers=table["headers"],
-                rows=table["rows"]
+                headers=_sanitize_text(table["headers"]),
+                rows=_sanitize_text(table["rows"])
             ))
 
         # Process and Store Images / Diagrams
@@ -128,7 +148,7 @@ def process_document_task(document_id: uuid.UUID):
                     db.add(OcrResult(
                         document_id=document.id,
                         page_number=img["page_number"],
-                        text=ocr_result["text"],
+                        text=_sanitize_text(ocr_result["text"]),
                         ocr_confidence=ocr_result["confidence"]
                     ))
 
